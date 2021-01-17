@@ -2,7 +2,20 @@ language: ruby
 cache: bundler
 gemfile: Gemfile
 script:
-  - bundle exec jekyll algolia --source docs --destination docs/_site --config docs/_config.yml
+  - JEKYLL_ENV=production bundle exec jekyll build --destination site
+deploy:
+  provider: pages
+  local-dir: ./site
+  target-branch: gh-pages
+  email: deploy@travis-ci.org
+  name: Deployment Bot
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: master
+# script:
+#   - bundle exec jekyll #algolia --source docs --destination docs/_site --config docs/_config.yml
 branches:
   only:
     # Change this to gh-pages if you're deploying using the gh-pages branch
